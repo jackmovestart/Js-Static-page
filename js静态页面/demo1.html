@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    /*reset start*/
+    html,body{overflow: hidden; height:100%;}
+    body，h1,h2,h3,h4,p,ul,ol{padding: 0;  margin:0;  font-size: 28px;"微软雅黑"}
+    li{list-style: none;}
+    img{ border:none;}
+    a{text-decoration: none;}
+    a:active{color:#009ee0;}
+    /*reset end*/
+    /*common start*/
+        .clear{ zoom: 1;}
+        .clear:after{content: "";display: block;  clear: both;}
+        .commonTitle{color:#009ee0;font-size: 80px;font-weight: bold;letter-spacing: -5px;line-height: 0.8;}
+    /*common end*/
+    /*frame start*/
+    #main{  width: 100%;  height:100%; }
+    #header{  width:100%;  height: 80px; background-color: white;}
+    #headerMain{  width: 1100px;height: 100%;margin: 0 auto;  position: relative;}
+    #logo{margin-top: 30px;}
+    #nav{float: right;margin-top: 50px;}
+    #nav li{float: left;position: relative;margin-left: 40px;}
+    #nav li .up{position:absolute;left:0;top: 0;color: black;width: 0%;overflow: hidden;transition: 2s width;}
+    #nav li:hover .up{  width:100%;}
+    #arrow{  width: 21px;height: 11px;background: url("img/menuIndicator.png")no-repeat;position: absolute;
+        left: 50%;  bottom: -11px;transition: .5s left;z-index: 10;;
+    }
+    #content{ width:100%;  position: relative;overflow: hidden;}
+    #list{position: absolute;  top:0;  left:0;width: 100%;transition: .5s top;}
+    #list .LiList{ width: 2000px;position: relative;  left:50%;  margin-left: -1000px;overflow: hidden }
+
+    #list .divList{  width: 1100px; height: 520px; margin: 0px auto;position: relative}
+    /*frame end*/
+    /*home start*/
+    #home{background: url("img/bg1.jpg")no-repeat}
+    #homeContent .homeContent1{  width:100%;  height:100%;position: relative}
+    #homeContent .homeContent1 li{width:100%;  height:100%;position:absolute;
+        left:0;  top:0;background: black;  visibility: hidden;}
+    #homeContent .homeContent1 li:nth-of-type(1){background:#dc6c5f;}
+    #homeContent .homeContent1 li:nth-of-type(2){background:#95dc84;}
+    #homeContent .homeContent1 li:nth-of-type(3){background:#64b9d2;}
+    #homeContent .homeContent1 li h1{color: white;text-align: center;  padding-top: 150px;}
+    #homeContent .homeContent1 li.active{z-index: 1;visibility: visible;}
+    #homeContent .homeContent2{width: 100%; position: absolute;bottom:0;z-index: 2;text-align: center;}
+    #homeContent .homeContent2 li{  width: 20px;  height:20px;border-radius: 50%;background:rgba(255,255,255,0.5);
+        display: inline-block;box-shadow: 0 0 4px rgba(25,25,25,0.8);  cursor: pointer;}
+    #homeContent .homeContent2 li.active{background: white;cursor:default; }
+    /*home end*/
+
+    /*course start*/
+    #course{background: url("img/bg3.jpg")no-repeat}
+    /*course start*/
+
+    /*works start*/
+    #works{background: url("img/bg4.jpg")no-repeat}
+    #worksContent{}
+    #worksContent .worksContent1{}
+    #worksContent .worksContent2{padding-left: 50px;}
+    #worksContent .worksImgMark{ width:100%;height: 100%;  position: absolute;  left:0;  top:0;background:rgba(25,25,25,0.8);
+        color: white;  padding: 15px;box-sizing: border-box ;opacity: 0;transition: .5s}
+    #worksContent .worksImg{transition: .5s;}
+    #worksContent .workImgParent .worksImgMark:hover{opacity:1 }
+    #worksContent .workImgParent:hover .worksImg{transform:scale(1.5)rotate(-20deg); }
+    #worksContent .workImgParent{width: 220px;  height:133px;  float: left;overflow: hidden;  margin:0 1px;position: relative;}
+    #worksContent .workImgParent:last-of-type{  width: 332px;}
+    #worksContent .worksImgMark div{background: url(img/zoomico.png)no-repeat;width: 32px;  height:34px; cursor:pointer;
+        margin:10px auto;transition: .5s}
+    #worksContent .worksImgMark div:hover{background-position:0 -34px;}
+    #worksContent .worksContent3{  width: 167px;  height: 191px;background: url(img/robot.png) no-repeat;
+        position: absolute;left:900px;  top:50px;animation: 10s linear infinite worksMove;}
+    @keyframes worksMove {
+        0%{}
+        49%{
+            -webkit-transform: rotateY(0deg);
+            -moz-transform: rotateY(0deg);
+            -ms-transform: rotateY(0deg);
+            -o-transform: rotateY(0deg);
+            transform: rotateY(0deg);}
+        50%{
+            left: 450px;
+            -webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            -ms-transform: rotateY(180deg);
+            -o-transform: rotateY(180deg);
+            transform: rotateY(180deg);}
+
+        100%{-webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            -ms-transform: rotateY(180deg);
+            -o-transform: rotateY(180deg);
+            transform: rotateY(180deg);}
+
+    }
+    /*works end*/
+
+    /*about start*/
+    #about{background: url("img/bg5.jpg")no-repeat}
+    /*about start*/
+
+    /*team start*/
+    #team{background: url("img/bg2.jpg")no-repeat}
+    /*team start*/
+</style>
+<script>
+    window.onload = function () {
+        var oHeader = $('header');
+        var oNav = $('nav');
+        var aLiNav = oNav.getElementsByTagName("li");
+        var oArrow = $('arrow');
+        var oList = $('list');
+        var oContent = $('content');
+        var aLiList = getByclass(oList, 'LiList');
+        var aDivList = getByclass(oList, 'divList');
+        var oWorksContent = $('worksContent');
+        var oWorksContent2=getByclass(oWorksContent,"worksContent2")[0];
+        var iContentHeight = 0;
+        var iNow = 0;             //为什么要赋值这个变量，在视图放大或缩小的时候为了让content适应视图变化，需要改变图片的TOP大小
+        contentAuto();          //所以在适应视图函数中要加上改变TOP的语句，见1
+        bindNav();
+        listContentAuto();
+        mouseWheel();
+        workContent();
+        window.onresize = fuResize;//不管放大还是缩小，让网页适应视图
+
+        function bindNav() {
+            var oDiv = aLiNav[0].getElementsByTagName('div')[0];
+            oDiv.style.width = "100%";
+            oArrow.style.left = aLiNav[0].offsetLeft + aLiNav[0].offsetWidth / 2 - oArrow.offsetWidth / 2 + 'px';
+
+            for (var i = 0; i < aLiNav.length; i++) {
+                aLiNav[i].index = i;
+                aLiNav[i].onmousedown = function () {
+                    toMove(this.index);
+                    iNow = this.index;
+                }
+            }
+        }
+
+        //
+        function toMove(index) {//这个index是一定要有的索引啊索引
+            for (var i = 0; i < aLiNav.length; i++) {
+                var oDiv = aLiNav[i].getElementsByTagName('div')[0];
+                oDiv.style.width = "0%";
+            }
+            var oDiv = aLiNav[index].getElementsByTagName("div")[0];//索引
+            oDiv.style.width = '100%';
+
+            oArrow.style.left = aLiNav[index].offsetLeft + aLiNav[index].offsetWidth / 2 - oArrow.offsetWidth / 2 + 'px';
+
+            //控制content
+            oList.style.top = -index * iContentHeight + 'px';
+        }
+
+        function contentAuto() {
+            iContentHeight = viewHeight() - oHeader.offsetHeight;
+            oContent.style.height = iContentHeight + 'px';
+            for (var i = 0; i < aLiList.length; i++) {
+                aLiList[i].style.height = iContentHeight + 'px';
+            }
+        }
+
+        function fuResize() {
+            contentAuto();//方法就是让函数再重新执行一遍
+            oList.style.top = -iNow * iContentHeight + 'px';//1，这里，但是这里要跟上面高度算法取得联系，正好加个变量
+            listContentAuto();
+        }
+
+        function listContentAuto() {
+            var mt = (iContentHeight - 520) / 2;
+            for (var i = 0; i < aDivList.length; i++) {
+                aDivList[i].style.marginTop = mt + 'px';//你不给他加px，他不理你。。。。。
+            }
+        }
+
+        //获取可视区的宽和高
+        function viewWidth() {
+            return window.innerWidth || document.documentElement.clientWidth
+        }
+
+        function viewHeight() {
+            return window.innerHeight || document.documentElement.clientHeight
+        }
+
+        function getByclass(oParent, sClass) {
+            var aElem = oParent.getElementsByTagName('*');
+            var arr = [];
+            for (var i = 0; i < aElem.length; i++) {
+                if (aElem[i].className == sClass) {
+                    arr.push(aElem[i]);
+                }
+            }
+            return arr;
+        }
+
+
+        //继续封装函数
+        function mouseWheel() {
+            var bBtn = true;
+            var timer = null;
+
+            if (oContent.addEventListener) {
+                oContent.addEventListener('DOMMouseScroll', function (ev) {
+                    var ev = ev || window.event;
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        toChange(ev);
+                    }, 200);
+                }, false);//基本写法FF
+            }
+            oContent.onmousewheel = function () {
+                var ev = ev || window.event;
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    toChange(ev);
+                }, 200);
+            };
+
+            function toChange(ev) {
+                if (ev.detail) {
+                    bBtn = ev.detail > 0 ? true : false;
+                }
+                else {
+                    bBtn = ev.wheelDelta < 0 ? true : false;
+                }
+                if (bBtn) {
+                    if (iNow != aLiList.length - 1) {
+                        iNow++;
+                    }
+                    toMove(iNow);
+                }
+                else {
+                    if (iNow != 0) {
+                        iNow--;
+                    }
+                    toMove(iNow);
+                }
+                if (ev.preventDefault) {//阻止默认行为
+                    ev.preventDefault();
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+
+        
+        function workContent() {
+            var data=[
+                {img:'img/worksimg1.jpg',text:'试水水水水水水水水水水1'},
+                {img:'img/worksimg2.jpg',text:'试水水水水水水水水水水2'},
+                {img:'img/worksimg3.jpg',text:'试水水水水水水水水水水3'},
+                {img:'img/worksimg4.jpg',text:'试水水水水水水水水水水4'}
+            ]
+            for(var i=0;i<data.length;i++){
+                var oDivParent=document.createElement('div');
+                oDivParent.className='workImgParent';
+                oDivParent.innerHTML='<img class="worksImg" src="'+(data[i].img)+'"><div class="worksImgMark"><span>'+(data[i].text)+'</span><div></div></div>';
+                oWorksContent2.appendChild(oDivParent);
+            }
+        }
+        
+        function $(id) {
+            return document.getElementById(id);
+        }
+    }
+</script>
+<body>
+    <div id="main">
+        <div id="header">
+            <div id="headerMain">
+                <a href="#"><img src="img/logo.png" id="logo"></a>
+                <ul id="nav">
+                    <li>
+                    <a href="javascript:;">
+                        <div class="up"><img src="img/home_gruen.png"></div>
+                        <div><img src="img/home.png"> </div>
+                    </a>
+                    </li>
+
+                    <li>
+                        <a href="javascript:;">
+                        <div class="up">Course</div>
+                        <div>Course </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <div class="up">Works</div>
+                        <div>Works</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <div class="up">About</div>
+                        <div>About</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <div class="up">Team</div>
+                        <div>Team</div>
+                        </a>
+                    </li>
+                </ul>
+                <div id="arrow"></div>
+            </div>
+        </div>
+        <div id="content">
+            <ul id="list">
+                <li id="home" class="LiList">
+                   <div id="homeContent" class="divList">
+                       <ul class="homeContent1">
+                               <li class="active">
+                                   <h1 class="commonTitle">one lawyer</h1>
+                               </li>
+                               <li>
+                                   <h1 class="commonTitle">two lawyer</h1>
+                               </li>
+                               <li>
+                                   <h1 class="commonTitle">three lawyer</h1>
+                               </li>
+                       </ul>
+                       <ul class="homeContent2">
+                               <li class="active"></li>
+                               <li></li>
+                               <li></li>
+                       </ul>
+                   </div>
+                </li>
+                <li id="course" class="LiList">
+                    <div class="divList">
+                        2222222222
+                    </div></li>
+                <li id="works" class="LiList">
+                    <div id="worksContent" class="divList">
+                        <div class="worksContent1">
+                            <h1 class="commonTitle">
+                                <span></span>EINBLICK<br>
+                                <span></span>ERKENNTNIS<br>
+                                <span></span>ERGEBNIS<br>
+                            </h1>
+                        </div>
+                        <div class="worksContent2">
+                            <!--<div class="workImgParent">-->
+                            <!--<img class="worksImg" src="img/worksimg1.jpg">-->
+                            <!--<div class="worksImgMark">-->
+                                <!--<span>测试水水水水水水水水水水</span>-->
+                                <!--<div></div>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="workImgParent">-->
+                                <!--<img class="worksImg" src="img/worksimg2.jpg">-->
+                                <!--<div class="worksImgMark">-->
+                                    <!--<span>测试水水水水水水水水水水</span>-->
+                                    <!--<div></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="workImgParent">-->
+                                <!--<img class="worksImg" src="img/worksimg3.jpg">-->
+                                <!--<div class="worksImgMark">-->
+                                    <!--<span>测试水水水水水水水水水水</span>-->
+                                    <!--<div></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="workImgParent">-->
+                                <!--<img class="worksImg" src="img/worksimg4.jpg">-->
+                                <!--<div class="worksImgMark">-->
+                                    <!--<span>测试水水水水水水水水水水</span>-->
+                                    <!--<div></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        </div>
+                        <div class="worksContent3"></div>
+                    </div></li>
+                <li id="about" class="LiList">
+                    <div class="divList">
+                        444444444444444
+                    </div></li>
+                <li id="team" class="LiList">
+                    <div class="divList">
+                        5555555555555555
+                    </div></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
